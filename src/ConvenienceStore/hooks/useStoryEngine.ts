@@ -44,6 +44,7 @@ export function useStoryEngine() {
   const [isTyping, setIsTyping] = useState(false);
   const [choicesReady, setChoicesReady] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
+  const [isFailed, setIsFailed] = useState(false);
   const [currentScene, setCurrentScene] = useState<'store' | 'backroom' | 'dawn'>('store');
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -103,13 +104,16 @@ export function useStoryEngine() {
     urls.forEach(url => { const img = new Image(); img.src = url; });
   }, [beatId]);
 
-  // Apply beat's own flag and scene on arrival (only on first page)
+  // Apply beat's own flag, scene, and failure on arrival
   useEffect(() => {
     if (beat?.flag) {
       setFlags((prev) => new Set([...prev, beat.flag!]));
     }
     if (beat?.scene) {
       setCurrentScene(beat.scene);
+    }
+    if (beat?.failed) {
+      setIsFailed(true);
     }
     setPageIndex(0);
     setChoicesReady(false);
@@ -176,6 +180,7 @@ export function useStoryEngine() {
     setBeatId(resolveNext(FIRST_BEAT, initialFlags));
     setFlags(initialFlags);
     setIsEnded(false);
+    setIsFailed(false);
     setDisplayedChars(0);
     setPageIndex(0);
     setCurrentScene('store');
@@ -190,12 +195,12 @@ export function useStoryEngine() {
     // customer warmth
     'helped_chen_bo', 'helped_xiao_li', 'bonded_with_laisa',
     'helped_drunk', 'helped_cry_guy', 'bonded_with_isabel',
-    'helped_mei_popo', 'stood_up_to_robber',
+    'helped_mei_popo',
   ].filter((f) => flags.has(f)).length;
 
   return {
     beat, pageIndex, isLastPage, fullTextZh, fullTextEn,
-    flags, displayedChars, isTyping, choicesReady, isEnded, warmthScore,
+    flags, displayedChars, isTyping, choicesReady, isEnded, isFailed, warmthScore,
     currentScene, skipOrAdvance, choose, restart,
   };
 }

@@ -40,6 +40,7 @@ CUSTOMERS = {
             "normal":    "calm melancholy expression, distant thoughtful gaze, quiet dignity",
             "happy":     "warm grandfatherly smile, gentle crinkled eyes, nostalgic joy",
             "sad":       "heavy sorrowful eyes, head slightly bowed, grief-worn expression",
+            "surprised": "startled wide eyes, mouth open mid-complaint, knocked off balance, flustered and indignant",
         },
     },
 
@@ -117,6 +118,7 @@ CUSTOMERS = {
             "normal":    "gentle loneliness in eyes, soft tired smile, quiet contentment",
             "happy":     "eyes crinkling with delight, hands clasped together, grandmotherly warmth",
             "sad":       "wistful misty eyes, soft trembling lip, remembering something far away",
+            "curious":   "head tilted, eyes sharp and narrowed, studying someone carefully with concern",
         },
     },
 

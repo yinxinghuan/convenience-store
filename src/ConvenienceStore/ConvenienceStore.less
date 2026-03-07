@@ -104,9 +104,82 @@
 
     &:active { background: rgba(255, 255, 255, 0.2); }
   }
+
+  // Failure overlay
+  &__failure {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(10, 5, 20, 0.88);
+    backdrop-filter: blur(8px);
+    animation: cs-fade-in 1s ease;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  &__failure-card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    padding: 36px 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    max-width: 300px;
+  }
+
+  &__failure-icon {
+    font-size: 40px;
+    opacity: 0.5;
+    animation: cs-float 3s ease-in-out infinite;
+  }
+
+  &__failure-title {
+    font-size: 22px;
+    color: rgba(255, 255, 255, 0.55);
+    letter-spacing: 4px;
+    margin: 0;
+  }
+
+  &__failure-desc {
+    font-size: 15px;
+    color: rgba(255, 255, 255, 0.35);
+    line-height: 1.7;
+    max-width: 240px;
+    margin: 0;
+  }
+
+  &__failure-btn {
+    margin-top: 8px;
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 10px 28px;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: border-color 0.15s, color 0.15s;
+
+    &:active {
+      border-color: rgba(255, 255, 255, 0.3);
+      color: rgba(255, 255, 255, 0.75);
+    }
+  }
 }
 
 @keyframes cs-fade-in {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+@keyframes cs-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-6px); }
 }

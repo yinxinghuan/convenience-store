@@ -45,4 +45,6 @@ export interface StoryBeat {
   scene?: 'store' | 'backroom' | 'dawn';
   /** If true, engine computes ending dynamically from flags instead of using next */
   endingBranch?: true;
+  /** If true, this is a game-over beat — triggers failure screen */
+  failed?: true;
 }

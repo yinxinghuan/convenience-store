@@ -20,12 +20,12 @@ MAIN_CHARS     = ['guitarist', 'coder', 'hacker', 'ghost']
 MAIN_EMOTIONS  = ['normal', 'happy', 'sad', 'surprised', 'shy']
 
 CUSTOMER_CHARS = {
-    'chen_bo':  ['normal', 'happy', 'sad'],
+    'chen_bo':  ['normal', 'happy', 'sad', 'surprised'],
     'xiao_li':  ['normal', 'surprised'],
     'laisa':    ['normal', 'sad', 'surprised'],
     'drunk':    ['normal', 'happy', 'surprised'],
     'robber':   ['normal', 'surprised'],
-    'mei_popo': ['normal', 'happy', 'sad'],
+    'mei_popo': ['normal', 'happy', 'sad', 'curious'],
     'cry_guy':  ['normal', 'surprised'],
     'isabel':   ['normal', 'curious'],
 }

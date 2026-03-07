@@ -27,7 +27,7 @@ const ConvenienceStore = React.memo(
     const { t, getText } = useLocale();
     const {
       beat, pageIndex, fullTextZh, fullTextEn,
-      displayedChars, isTyping, choicesReady, isEnded, warmthScore,
+      flags, displayedChars, isTyping, choicesReady, isEnded, isFailed, warmthScore,
       currentScene, skipOrAdvance, choose, restart,
     } = useStoryEngine();
 
@@ -60,8 +60,26 @@ const ConvenienceStore = React.memo(
         {/* Watermark */}
         <img className="cs__watermark" src={aigramLogo} alt="Aigram" draggable={false} />
 
+        {/* Game over — failure screen */}
+        {isFailed && (
+          <div className="cs__failure" onPointerDown={restart}>
+            <div className="cs__failure-card">
+              <div className="cs__failure-icon">☁</div>
+              <p className="cs__failure-title">
+                {getText('夜班结束了', 'Shift Over')}
+              </p>
+              <p className="cs__failure-desc">
+                {flags.has('stood_up_to_robber')
+                  ? getText('你受伤了。这一夜，比你想的要短。', 'You got hurt. The night ended sooner than you expected.')
+                  : getText('有人认出了你。这一夜，比你想的要短。', 'Someone figured it out. The night ended sooner than you expected.')}
+              </p>
+              <button className="cs__failure-btn">{t('replay')}</button>
+            </div>
+          </div>
+        )}
+
         {/* Story ended */}
-        {isEnded ? (
+        {!isFailed && isEnded ? (
           <div className="cs__ending" onPointerDown={restart}>
             <div className="cs__ending-card">
               <div className="cs__ending-score">
@@ -77,7 +95,7 @@ const ConvenienceStore = React.memo(
               <button className="cs__ending-btn">{t('replay')}</button>
             </div>
           </div>
-        ) : (
+        ) : !isFailed ? (
           /* Tap area + dialog */
           <div className="cs__scene" onPointerDown={!hasChoices ? skipOrAdvance : undefined}>
             {hasChoices ? (
@@ -101,7 +119,7 @@ const ConvenienceStore = React.memo(
               />
             )}
           </div>
-        )}
+        ) : null}
       </div>
     );
   })
