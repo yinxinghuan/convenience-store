@@ -1,0 +1,89 @@
+.cs-dialog {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  min-height: 150px;
+  background: linear-gradient(180deg, rgba(8, 6, 20, 0.82) 0%, rgba(8, 6, 20, 0.97) 100%);
+  backdrop-filter: blur(8px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 14px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 22px;
+  }
+
+  &__pages {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+  }
+
+  &__page-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.25);
+    transition: background 0.2s;
+
+    &--active {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &__name {
+    font-family: 'Bangers', cursive;
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 2px;
+    text-shadow: 0 0 14px currentColor, 1px 2px 0 rgba(0, 0, 0, 0.6);
+    line-height: 1;
+  }
+
+  &__text {
+    font-size: 21px;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.93);
+    white-space: pre-wrap;
+
+    &--narration {
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.65);
+      font-size: 19px;
+    }
+  }
+
+  &__cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1em;
+    background: rgba(255, 255, 255, 0.7);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cs-cursor-blink 0.6s step-end infinite;
+  }
+
+  &__hint {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.28);
+    text-align: right;
+    letter-spacing: 0.5px;
+    animation: cs-hint-pulse 1.5s ease-in-out infinite alternate;
+  }
+}
+
+@keyframes cs-cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+@keyframes cs-hint-pulse {
+  from { opacity: 0.25; }
+  to   { opacity: 0.55; }
+}

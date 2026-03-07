@@ -1,0 +1,48 @@
+.cs-char {
+  position: absolute;
+  bottom: 130px;
+  width: 72%;
+  max-width: 300px;
+  opacity: 0;
+  transition: opacity 0.4s ease, transform 0.4s ease, filter 0.3s ease;
+  pointer-events: none;
+  transform: translateX(0) scale(0.96);
+
+  &--visible {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+
+  // Positions
+  &--left  { left: -8%; }
+  &--center {
+    left: 50%;
+    transform: translateX(-50%) scale(0.96);
+    &.cs-char--visible { transform: translateX(-50%) scale(1); }
+  }
+  &--right { right: -8%; }
+
+  img {
+    width: 100%;
+    display: block;
+    pointer-events: none;
+    filter: drop-shadow(0 12px 32px rgba(0, 0, 0, 0.7));
+  }
+
+  // Emotion animations
+  &--surprised { animation: cs-char-bounce 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+  // ── 幽灵专属特效 ─────────────────────────────────────────
+  &--ghost {
+    &.cs-char--visible {
+      opacity: 0.62;
+    }
+  }
+}
+
+@keyframes cs-char-bounce {
+  0%   { transform: translateX(0) scale(1); }
+  40%  { transform: translateX(0) scale(1.07); }
+  100% { transform: translateX(0) scale(1); }
+}
+
