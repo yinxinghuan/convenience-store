@@ -4,10 +4,10 @@ import { useLocale } from './i18n';
 import type { CharId } from './types';
 
 const CHAR_NAMES: Record<CharId, [string, string]> = {
-  guitarist: ['吉他少年 · Chen', 'Guitar Boy · Chen'],
-  coder:     ['咖啡女孩 · Suli', 'Coffee Girl · Suli'],
-  hacker:    ['眼镜大叔 · Fang', 'Hacker Dude · Fang'],
-  ghost:     ['调皮幽灵',         'Cheeky Ghost'],
+  guitarist: ['吉他少年 · Algram', 'Guitar Boy · Algram'],
+  coder:     ['咖啡女孩 · Jenny',  'Coffee Girl · Jenny'],
+  hacker:    ['眼镜大叔 · JM·F',  'Hacker Dude · JM·F'],
+  ghost:     ['调皮幽灵 · ghostpixel', 'Cheeky Ghost · ghostpixel'],
 };
 import CharacterSprite from './components/CharacterSprite';
 import DialogBox from './components/DialogBox';
