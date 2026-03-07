@@ -69,7 +69,7 @@ const ConvenienceStore = React.memo(
                 {getText('夜班结束了', 'Shift Over')}
               </p>
               <p className="cs__failure-desc">
-                {flags.has('stood_up_to_robber')
+                {flags.has('stood_up_to_robber') || flags.has('ghost_seen')
                   ? getText('你受伤了。这一夜，比你想的要短。', 'You got hurt. The night ended sooner than you expected.')
                   : getText('有人认出了你。这一夜，比你想的要短。', 'Someone figured it out. The night ended sooner than you expected.')}
               </p>
