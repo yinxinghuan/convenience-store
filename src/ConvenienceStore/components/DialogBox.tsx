@@ -1,8 +1,8 @@
 import React from 'react';
-import type { CharId } from '../types';
+import type { AnyCharId } from '../types';
 import './DialogBox.less';
 
-const SPEAKER_COLORS: Record<CharId, string> = {
+const SPEAKER_COLORS: Partial<Record<AnyCharId, string>> = {
   guitarist: '#f59e0b',
   coder: '#8b5cf6',
   hacker: '#06b6d4',
@@ -11,7 +11,7 @@ const SPEAKER_COLORS: Record<CharId, string> = {
 
 interface Props {
   speaker: string | null | undefined;
-  charId: CharId | undefined;
+  charId: AnyCharId | undefined;
   displayedText: string;
   isTyping: boolean;
   hasChoices: boolean;
@@ -21,7 +21,7 @@ interface Props {
 }
 
 const DialogBox = React.memo(function DialogBox({ speaker, charId, displayedText, isTyping, hasChoices, hintText, pageIndex, totalPages }: Props) {
-  const nameColor = charId ? SPEAKER_COLORS[charId] : '#fff';
+  const nameColor = (charId && SPEAKER_COLORS[charId]) ?? '#fff';
 
   return (
     <div className="cs-dialog">

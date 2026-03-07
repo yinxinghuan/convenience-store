@@ -1,41 +1,56 @@
 #!/usr/bin/env python3
 """Remove green-screen backgrounds from character sprites using chroma key (PIL + numpy).
-Also auto-crops to character bounding box and scales up to fill canvas."""
+Also auto-crops to character bounding box and scales up to fill canvas.
+
+Usage:
+  python3 remove_bg.py                          # main chars (guitarist/coder/hacker/ghost)
+  python3 remove_bg.py guitarist                # single main char
+  python3 remove_bg.py --customers              # all customer sprites
+  python3 remove_bg.py --customers laisa        # single customer
+"""
 import sys, os
 import numpy as np
 from PIL import Image
 
-IMG_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "src/ConvenienceStore/img")
-CHARS = ['guitarist', 'coder', 'hacker', 'ghost']
-EMOTIONS = ['normal', 'happy', 'sad', 'surprised', 'shy']
+BASE_DIR     = os.path.dirname(os.path.abspath(__file__))
+IMG_DIR      = os.path.join(BASE_DIR, "src/ConvenienceStore/img")
+CUSTOMER_DIR = os.path.join(BASE_DIR, "src/ConvenienceStore/img/customers")
+
+MAIN_CHARS     = ['guitarist', 'coder', 'hacker', 'ghost']
+MAIN_EMOTIONS  = ['normal', 'happy', 'sad', 'surprised', 'shy']
+
+CUSTOMER_CHARS = {
+    'chen_bo':  ['normal', 'happy', 'sad'],
+    'xiao_li':  ['normal', 'surprised'],
+    'laisa':    ['normal', 'sad', 'surprised'],
+    'drunk':    ['normal', 'happy', 'surprised'],
+    'robber':   ['normal', 'surprised'],
+    'mei_popo': ['normal', 'happy', 'sad'],
+    'cry_guy':  ['normal', 'surprised'],
+    'isabel':   ['normal', 'curious'],
+}
 
 # Chroma key parameters
-THRESHOLD = 150   # greenness = G - max(R,B) must exceed this to be removed (higher = safer for green eyes)
-FEATHER = 40      # transition zone width for soft edges (anti-aliasing)
+# Main chars: THRESHOLD=150 (higher = safer for Jenny's green eyes)
+# Customers:  THRESHOLD=80  (more aggressive, none have green eyes)
+FEATHER = 40
+MARGIN  = 0.01
 
-# Autocrop + scale parameters
-MARGIN = 0.01     # keep this fraction of canvas as padding on each side after crop
 
-
-def chroma_key(img_path):
+def chroma_key(img_path, threshold=80):
     img = Image.open(img_path).convert("RGBA")
     orig_w, orig_h = img.size
     data = np.array(img, dtype=np.float32)
     r, g, b = data[:, :, 0], data[:, :, 1], data[:, :, 2]
 
-    # Greenness: how much more green than the other two channels
-    greenness = g - np.maximum(r, b)
-
-    # Soft alpha: 1.0 = fully green (erase), 0.0 = not green (keep)
-    alpha_remove = np.clip((greenness - (THRESHOLD - FEATHER)) / FEATHER, 0.0, 1.0)
+    greenness    = g - np.maximum(r, b)
+    alpha_remove = np.clip((greenness - (threshold - FEATHER)) / FEATHER, 0.0, 1.0)
     data[:, :, 3] = data[:, :, 3] * (1.0 - alpha_remove)
-
     result = Image.fromarray(data.astype(np.uint8))
 
-    # ── Autocrop: find bounding box of non-transparent pixels ────────────────
     alpha = np.array(result)[:, :, 3]
-    rows = np.any(alpha > 10, axis=1)
-    cols = np.any(alpha > 10, axis=0)
+    rows  = np.any(alpha > 10, axis=1)
+    cols  = np.any(alpha > 10, axis=0)
     if not rows.any():
         result.save(img_path)
         return
@@ -43,41 +58,58 @@ def chroma_key(img_path):
     rmin, rmax = np.where(rows)[0][[0, -1]]
     cmin, cmax = np.where(cols)[0][[0, -1]]
 
-    # Add margin
     pad_h = int((rmax - rmin) * MARGIN)
     pad_w = int((cmax - cmin) * MARGIN)
-    rmin = max(0, rmin - pad_h)
-    rmax = min(orig_h - 1, rmax + pad_h)
-    cmin = max(0, cmin - pad_w)
-    cmax = min(orig_w - 1, cmax + pad_w)
+    rmin  = max(0, rmin - pad_h)
+    rmax  = min(orig_h - 1, rmax + pad_h)
+    cmin  = max(0, cmin - pad_w)
+    cmax  = min(orig_w - 1, cmax + pad_w)
 
     cropped = result.crop((cmin, rmin, cmax + 1, rmax + 1))
-
-    # Scale to fill original canvas, anchor to bottom
     crop_w, crop_h = cropped.size
-    scale = min(orig_w / crop_w, orig_h / crop_h)
-    new_w = int(crop_w * scale)
-    new_h = int(crop_h * scale)
-    scaled = cropped.resize((new_w, new_h), Image.LANCZOS)
+    scale  = min(orig_w / crop_w, orig_h / crop_h)
+    scaled = cropped.resize((int(crop_w * scale), int(crop_h * scale)), Image.LANCZOS)
 
-    # Paste onto transparent canvas, bottom-center aligned
     canvas = Image.new("RGBA", (orig_w, orig_h), (0, 0, 0, 0))
-    x = (orig_w - new_w) // 2
-    y = orig_h - new_h
-    canvas.paste(scaled, (x, y))
+    canvas.paste(scaled, ((orig_w - scaled.width) // 2, orig_h - scaled.height))
     canvas.save(img_path)
 
 
-targets = sys.argv[1:] if len(sys.argv) > 1 else CHARS
+# ── Parse args ────────────────────────────────────────────────────────────────
+args = sys.argv[1:]
 
-for char in targets:
-    for emotion in EMOTIONS:
-        src = os.path.join(IMG_DIR, f"{char}_{emotion}.png")
-        if not os.path.exists(src):
-            print(f"  skip {char}_{emotion} (not found)")
+if '--customers' in args:
+    args.remove('--customers')
+    mode = 'customers'
+    targets = args if args else list(CUSTOMER_CHARS.keys())
+else:
+    mode = 'main'
+    targets = args if args else MAIN_CHARS
+
+# ── Run ───────────────────────────────────────────────────────────────────────
+if mode == 'main':
+    for char in targets:
+        for emotion in MAIN_EMOTIONS:
+            src = os.path.join(IMG_DIR, f"{char}_{emotion}.png")
+            if not os.path.exists(src):
+                print(f"  skip {char}_{emotion} (not found)")
+                continue
+            print(f"  {char}_{emotion}...", end=" ", flush=True)
+            chroma_key(src, threshold=150)
+            print("done")
+else:
+    os.makedirs(CUSTOMER_DIR, exist_ok=True)
+    for char in targets:
+        if char not in CUSTOMER_CHARS:
+            print(f"  unknown customer: {char}")
             continue
-        print(f"  {char}_{emotion}...", end=" ", flush=True)
-        chroma_key(src)
-        print("done")
+        for emotion in CUSTOMER_CHARS[char]:
+            src = os.path.join(CUSTOMER_DIR, f"{char}_{emotion}.png")
+            if not os.path.exists(src):
+                print(f"  skip {char}_{emotion} (not found)")
+                continue
+            print(f"  {char}_{emotion}...", end=" ", flush=True)
+            chroma_key(src, threshold=80)
+            print("done")
 
 print("\nAll done!")

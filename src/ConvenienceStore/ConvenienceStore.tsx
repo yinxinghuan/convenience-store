@@ -2,6 +2,7 @@ import React, { forwardRef, useState } from 'react';
 import { useStoryEngine } from './hooks/useStoryEngine';
 import { useLocale } from './i18n';
 import type { CharId } from './types';
+import { isMainChar } from './types';
 
 // Story character names = real usernames
 const CHAR_NAMES: Record<CharId, [string, string]> = {
@@ -83,7 +84,11 @@ const ConvenienceStore = React.memo(
               <ChoicePanel choices={beat.choices!} onChoose={choose} getText={getText} />
             ) : (
               <DialogBox
-                speaker={beat.character ? getText(...CHAR_NAMES[beat.character]) : (beat.speaker ?? null)}
+                speaker={beat.character
+              ? (isMainChar(beat.character)
+                  ? getText(...CHAR_NAMES[beat.character])
+                  : (beat.speaker ?? beat.character))
+              : (beat.speaker ?? null)}
                 charId={beat.character}
                 displayedText={displayedText}
                 isTyping={isTyping}
