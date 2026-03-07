@@ -31,7 +31,7 @@ CHARACTERS = {
         "base": (
             "young Asian boy, early teens, spiky dark brown hair, "
             "beige tan jacket over teal green hoodie, necklace pendant, "
-            "acoustic guitar, backpack strap visible"
+            "acoustic guitar strapped on back, guitar neck visible over shoulder, always wearing guitar on back"
         ),
         "refs": ["ref_happy.png", "ref_normal.png"],  # 2 reference images
         "emotions": {
