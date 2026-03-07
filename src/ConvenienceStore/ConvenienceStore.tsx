@@ -3,12 +3,12 @@ import { useStoryEngine } from './hooks/useStoryEngine';
 import { useLocale } from './i18n';
 import type { CharId } from './types';
 
-// Story character names used in dialog nameplates
+// Story character names = real usernames
 const CHAR_NAMES: Record<CharId, [string, string]> = {
-  guitarist: ['阿晨', 'Aichen'],
-  coder:     ['苏理', 'Suli'],
-  hacker:    ['方明', 'Fang Ming'],
-  ghost:     ['幽灵', 'Ghost'],
+  guitarist: ['Algram',     'Algram'],
+  coder:     ['Jenny',      'Jenny'],
+  hacker:    ['JM·F',       'JM·F'],
+  ghost:     ['ghostpixel', 'ghostpixel'],
 };
 import CharacterSprite from './components/CharacterSprite';
 import DialogBox from './components/DialogBox';
