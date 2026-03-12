@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """
 Generate random customer sprites for the convenience store game.
-- Laisa & Isabel: reference image based (ReferenceLatent)
+- Isaya & Isabel: reference image based (ReferenceLatent)
 - Others: pure text-to-image
 
 Usage:
   python3 generate_customers.py            # all characters
   python3 generate_customers.py chen_bo    # single character
-  python3 generate_customers.py laisa normal  # single sprite
+  python3 generate_customers.py isaya normal  # single sprite
 """
 import json, time, random, sys, os
 import urllib.request, urllib.parse
@@ -58,8 +58,8 @@ CUSTOMERS = {
         },
     },
 
-    "laisa": {
-        "label": "Laisa (insomniac)",
+    "isaya": {
+        "label": "Isaya (insomniac)",
         "refs":  [
             "/Users/yin/Downloads/1772134145839906.webp",
             "/Users/yin/Downloads/1772329787918946.webp",

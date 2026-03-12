@@ -1123,7 +1123,7 @@ export const STORY: Record<string, StoryBeat> = {
   // ═══════════════════════════════════════════════════════════
   //  随机顾客  — 三个时段插入
   //
-  //  Slot 1 (after Algram, ~12:30am):  chen_bo | xiao_li | laisa
+  //  Slot 1 (after Algram, ~12:30am):  chen_bo | xiao_li | isaya
   //  Slot 2 (after Jenny, ~1:30am):    drunk   | cry_guy | isabel
   //  Slot 3 (after JM·F, ~2:50am):    mei_popo | robber
   //
@@ -1256,7 +1256,7 @@ export const STORY: Record<string, StoryBeat> = {
     speaker: null,
     textZh: '',
     textEn: '',
-    next: 'slot1_laisa_1',
+    next: 'slot1_isaya_1',
     choices: [
       { labelZh: '随口问句"今晚几点下班"', labelEn: 'Ask when he gets off', next: 'slot1_xiao_li_A1', flag: 'helped_xiao_li' },
       { labelZh: '帮他拿了就好', labelEn: 'Just hand him the stuff', next: 'slot1_xiao_li_B' },
@@ -1280,7 +1280,7 @@ export const STORY: Record<string, StoryBeat> = {
     speaker: null,
     textZh: '他拿着东西走了。出门的一刹那，脚步稍微轻了一点。也许是你的错觉。',
     textEn: 'He heads out with his things. Just for a moment, his step seems a little lighter. Maybe you imagined it.',
-    next: 'slot1_laisa_1',
+    next: 'slot1_isaya_1',
   },
   slot1_xiao_li_B: {
     id: 'slot1_xiao_li_B',
@@ -1290,60 +1290,60 @@ export const STORY: Record<string, StoryBeat> = {
     speaker: null,
     textZh: '你把东西放在台上，他扫码付钱，点了下头，快步走了。',
     textEn: 'You set it all on the counter. He scans the code, nods once, and strides out.',
-    next: 'slot1_laisa_1',
+    next: 'slot1_isaya_1',
   },
 
-  // ── SLOT 1 ── Laisa ─────────────────────────────────────
-  slot1_laisa_1: {
-    id: 'slot1_laisa_1',
-    character: 'laisa',
+  // ── SLOT 1 ── Isaya ─────────────────────────────────────
+  slot1_isaya_1: {
+    id: 'slot1_isaya_1',
+    character: 'isaya',
     position: 'right',
     emotion: 'normal',
-    condition: 'cust_laisa',
+    condition: 'cust_isaya',
     speaker: null,
     textZh: '有人推门进来，步子很轻，像是刻意踩在最安静的地方。她戴着耳机，但没在听歌。',
     textEn: 'Someone comes in quietly, stepping like they\'re trying not to make a sound. She\'s wearing headphones, but nothing\'s playing.',
-    next: 'slot1_laisa_2',
+    next: 'slot1_isaya_2',
   },
-  slot1_laisa_2: {
-    id: 'slot1_laisa_2',
-    character: 'laisa',
+  slot1_isaya_2: {
+    id: 'slot1_isaya_2',
+    character: 'isaya',
     position: 'right',
     emotion: 'normal',
-    condition: 'cust_laisa',
-    speaker: 'Laisa',
+    condition: 'cust_isaya',
+    speaker: 'Isaya',
     textZh: '有没有……高可可含量的那种黑巧？越苦越好。',
     textEn: 'Do you have… dark chocolate? High cocoa. The bitter kind.',
-    next: 'slot1_laisa_choice',
+    next: 'slot1_isaya_choice',
   },
-  slot1_laisa_choice: {
-    id: 'slot1_laisa_choice',
-    character: 'laisa',
+  slot1_isaya_choice: {
+    id: 'slot1_isaya_choice',
+    character: 'isaya',
     position: 'right',
     emotion: 'normal',
-    condition: 'cust_laisa',
+    condition: 'cust_isaya',
     speaker: null,
     textZh: '',
     textEn: '',
     next: 'c_intro',
     choices: [
-      { labelZh: '递给她，说"睡不着？"', labelEn: 'Hand it over — "Can\'t sleep?"', next: 'slot1_laisa_A1', flag: 'bonded_with_laisa' },
-      { labelZh: '指了指货架的方向', labelEn: 'Point to the shelf', next: 'slot1_laisa_B' },
+      { labelZh: '递给她，说"睡不着？"', labelEn: 'Hand it over — "Can\'t sleep?"', next: 'slot1_isaya_A1', flag: 'bonded_with_isaya' },
+      { labelZh: '指了指货架的方向', labelEn: 'Point to the shelf', next: 'slot1_isaya_B' },
     ],
   },
-  slot1_laisa_A1: {
-    id: 'slot1_laisa_A1',
-    character: 'laisa',
+  slot1_isaya_A1: {
+    id: 'slot1_isaya_A1',
+    character: 'isaya',
     position: 'right',
     emotion: 'normal',
-    speaker: 'Laisa',
+    speaker: 'Isaya',
     textZh: '……看到这边有灯亮着。（她停了一下，声音很轻。）就进来了。谢了。',
     textEn: '…I saw the lights on. (She pauses, voice quiet.) So I came in. Thanks.',
     next: 'c_intro',
   },
-  slot1_laisa_B: {
-    id: 'slot1_laisa_B',
-    character: 'laisa',
+  slot1_isaya_B: {
+    id: 'slot1_isaya_B',
+    character: 'isaya',
     position: 'right',
     emotion: 'normal',
     speaker: null,

@@ -6,7 +6,7 @@ import { getCharacterImageUrl } from '../utils/characterImages';
 
 const CHAR_INTERVAL = 32; // ms per character
 
-const SLOT1_POOL = ['cust_chen_bo', 'cust_xiao_li', 'cust_laisa'] as const;
+const SLOT1_POOL = ['cust_chen_bo', 'cust_xiao_li', 'cust_isaya'] as const;
 const SLOT2_POOL = ['cust_drunk', 'cust_cry_guy', 'cust_isabel'] as const;
 const SLOT3_POOL = ['cust_mei_popo', 'cust_robber'] as const;
 
@@ -193,7 +193,7 @@ export function useStoryEngine() {
     'ghost_seen', 'ghost_told',
     'letter_opened', 'suli_recorded', 'petition_signed',
     // customer warmth
-    'helped_chen_bo', 'helped_xiao_li', 'bonded_with_laisa',
+    'helped_chen_bo', 'helped_xiao_li', 'bonded_with_isaya',
     'helped_drunk', 'helped_cry_guy', 'bonded_with_isabel',
     'helped_mei_popo',
   ].filter((f) => flags.has(f)).length;

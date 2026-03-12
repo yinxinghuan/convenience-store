@@ -1,5 +1,5 @@
 export type CharId = 'guitarist' | 'coder' | 'hacker' | 'ghost';
-export type CustomerId = 'chen_bo' | 'xiao_li' | 'laisa' | 'drunk' | 'robber' | 'mei_popo' | 'cry_guy' | 'isabel';
+export type CustomerId = 'chen_bo' | 'xiao_li' | 'isaya' | 'drunk' | 'robber' | 'mei_popo' | 'cry_guy' | 'isabel';
 export type AnyCharId = CharId | CustomerId;
 export type Emotion = 'normal' | 'happy' | 'sad' | 'surprised' | 'shy' | 'curious';
 

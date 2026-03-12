@@ -6,7 +6,7 @@ Usage:
   python3 remove_bg.py                          # main chars (guitarist/coder/hacker/ghost)
   python3 remove_bg.py guitarist                # single main char
   python3 remove_bg.py --customers              # all customer sprites
-  python3 remove_bg.py --customers laisa        # single customer
+  python3 remove_bg.py --customers isaya        # single customer
 """
 import sys, os
 import numpy as np
@@ -22,7 +22,7 @@ MAIN_EMOTIONS  = ['normal', 'happy', 'sad', 'surprised', 'shy']
 CUSTOMER_CHARS = {
     'chen_bo':  ['normal', 'happy', 'sad', 'surprised'],
     'xiao_li':  ['normal', 'surprised'],
-    'laisa':    ['normal', 'sad', 'surprised'],
+    'isaya':    ['normal', 'sad', 'surprised'],
     'drunk':    ['normal', 'happy', 'surprised'],
     'robber':   ['normal', 'surprised'],
     'mei_popo': ['normal', 'happy', 'sad', 'curious'],
