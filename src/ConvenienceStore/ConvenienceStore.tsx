@@ -1,4 +1,5 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useState, useEffect } from 'react';
+import { useGameScore, Leaderboard } from '@shared/leaderboard';
 import { useStoryEngine } from './hooks/useStoryEngine';
 import { useLocale } from './i18n';
 import type { CharId } from './types';
@@ -24,12 +25,20 @@ import './ConvenienceStore.less';
 const ConvenienceStore = React.memo(
   forwardRef<HTMLDivElement, Record<string, never>>(function ConvenienceStore(_props, ref) {
     const [showSplash, setShowSplash] = useState(true);
+    const [showLeaderboard, setShowLeaderboard] = useState(false);
     const { t, getText } = useLocale();
+    const { isInAigram, submitScore, fetchGlobalLeaderboard, fetchFriendsLeaderboard } = useGameScore('convenience-store');
+
     const {
       beat, pageIndex, fullTextZh, fullTextEn,
       flags, displayedChars, isTyping, choicesReady, isEnded, isFailed, warmthScore,
       currentScene, skipOrAdvance, choose, restart,
     } = useStoryEngine();
+
+    // 故事结束时提交暖心值分数
+    useEffect(() => {
+      if (isEnded && warmthScore > 0) submitScore(warmthScore * 100);
+    }, [isEnded]);
 
     const BG_IMAGES = { store: bgImg, backroom: bgBackroomImg, dawn: bgDawnImg };
     const activeBg = BG_IMAGES[currentScene] ?? bgImg;
@@ -42,6 +51,15 @@ const ConvenienceStore = React.memo(
     return (
       <div className="cs" ref={ref}>
         {showSplash && <SplashScreen onDone={() => setShowSplash(false)} />}
+        {showLeaderboard && (
+          <Leaderboard
+            gameName="Convenience Store"
+            isInAigram={isInAigram}
+            onClose={() => setShowLeaderboard(false)}
+            fetchGlobal={fetchGlobalLeaderboard}
+            fetchFriends={fetchFriendsLeaderboard}
+          />
+        )}
 
         {/* Background */}
         <div className="cs__bg" style={{ backgroundImage: `url(${activeBg})` }} />
@@ -62,7 +80,7 @@ const ConvenienceStore = React.memo(
 
         {/* Game over — failure screen */}
         {isFailed && (
-          <div className="cs__failure" onPointerDown={restart}>
+          <div className="cs__failure">
             <div className="cs__failure-card">
               <div className="cs__failure-icon">☁</div>
               <p className="cs__failure-title">
@@ -73,14 +91,15 @@ const ConvenienceStore = React.memo(
                   ? getText('你受伤了。这一夜，比你想的要短。', 'You got hurt. The night ended sooner than you expected.')
                   : getText('有人认出了你。这一夜，比你想的要短。', 'Someone figured it out. The night ended sooner than you expected.')}
               </p>
-              <button className="cs__failure-btn">{t('replay')}</button>
+              <button className="cs__failure-btn" onPointerDown={restart}>{t('replay')}</button>
+              <button className="cs__lb-icon" onPointerDown={() => setShowLeaderboard(true)}>🏆</button>
             </div>
           </div>
         )}
 
         {/* Story ended */}
         {!isFailed && isEnded ? (
-          <div className="cs__ending" onPointerDown={restart}>
+          <div className="cs__ending">
             <div className="cs__ending-card">
               <div className="cs__ending-score">
                 {warmthScore >= 6 ? '✦ ✦ ✦' : warmthScore >= 3 ? '✦ ✦' : '✦'}
@@ -92,7 +111,8 @@ const ConvenienceStore = React.memo(
                   ? getText('夜班就这样过去了。', 'The night passed.')
                   : getText('有些人只是路过。', 'Some people just pass through.')}
               </p>
-              <button className="cs__ending-btn">{t('replay')}</button>
+              <button className="cs__ending-btn" onPointerDown={restart}>{t('replay')}</button>
+              <button className="cs__lb-icon" onPointerDown={() => setShowLeaderboard(true)}>🏆</button>
             </div>
           </div>
         ) : !isFailed ? (
