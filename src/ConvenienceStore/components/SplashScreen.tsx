@@ -1,5 +1,6 @@
 import React, { forwardRef, useEffect, useState } from 'react';
-import posterImg from '../img/poster.png';
+import { useLocale } from '../i18n';
+import SplashFloatingLines from './SplashFloatingLines';
 import bgImg from '../img/bg.png';
 import bgBackroomImg from '../img/bg_backroom.png';
 import bgDawnImg from '../img/bg_dawn.png';
@@ -91,12 +92,17 @@ const SplashScreen = React.memo(
     return (
       <div className={`cs-splash ${fading ? 'cs-splash--fading' : ''}`} ref={ref}>
         <img
-          className={`cs-splash__img ${posterReady ? 'cs-splash__img--visible' : ''}`}
-          src={posterImg}
+          className={`cs-splash__bg ${posterReady ? 'cs-splash__bg--visible' : ''}`}
+          src={bgImg}
           alt=""
           draggable={false}
           onLoad={() => setPosterReady(true)}
         />
+        <div className="cs-splash__overlay" />
+        <SplashFloatingLines />
+        <div className="cs-splash__title">
+          <Title />
+        </div>
         <div className="cs-splash__bar-track">
           <div
             className="cs-splash__bar-fill"
@@ -107,6 +113,18 @@ const SplashScreen = React.memo(
     );
   })
 );
+
+function Title() {
+  const { locale } = useLocale();
+  const isZh = locale === 'zh';
+  return (
+    <>
+      <div className="cs-splash__title-label">{isZh ? '凌晨夜班' : 'NIGHT SHIFT'}</div>
+      <div className="cs-splash__title-main">{isZh ? '37 号便利店' : 'STORE NO. 37'}</div>
+      <div className="cs-splash__title-sub">{isZh ? '一夜，几个客人' : 'one night, a few visitors'}</div>
+    </>
+  );
+}
 
 SplashScreen.displayName = 'SplashScreen';
 export default SplashScreen;

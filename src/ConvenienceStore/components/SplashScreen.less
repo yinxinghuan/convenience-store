@@ -2,34 +2,74 @@
   position: absolute;
   inset: 0;
   z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
   background: #000;
   pointer-events: none;
   user-select: none;
   opacity: 1;
   transition: opacity 0.5s ease;
+  overflow: hidden;
 
   &--fading {
     opacity: 0;
   }
 
-  &__img {
-    width: min(72%, 300px);
-    aspect-ratio: 1;
-    border-radius: 20px;
+  &__bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    display: block;
-    pointer-events: none;
-    box-shadow: 0 8px 48px rgba(0, 0, 0, 0.7);
+    object-position: center bottom;
     opacity: 0;
-    transition: opacity 0.4s ease;
+    transition: opacity 0.6s ease;
 
     &--visible {
       opacity: 1;
     }
+  }
+
+  // Dim the bg so floating lines + title are readable
+  &__overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.55) 70%, rgba(0,0,0,0.85) 100%);
+    z-index: 2;
+  }
+
+  &__title {
+    position: absolute;
+    bottom: 96px;
+    left: 0;
+    right: 0;
+    z-index: 5;
+    text-align: center;
+    font-family: 'Noto Serif SC', serif;
+    color: rgba(255, 230, 195, 0.95);
+    text-shadow: 0 0 18px rgba(255, 180, 100, 0.45);
+  }
+
+  &__title-label {
+    font-size: 12px;
+    letter-spacing: 0.5em;
+    color: rgba(255, 200, 150, 0.55);
+    margin-bottom: 8px;
+    animation: cs-splash-title-fade 1.6s ease 0.2s both;
+  }
+
+  &__title-main {
+    font-size: 30px;
+    letter-spacing: 0.18em;
+    font-weight: 600;
+    margin-bottom: 8px;
+    animation: cs-splash-title-fade 1.6s ease 0.5s both;
+  }
+
+  &__title-sub {
+    font-size: 14px;
+    letter-spacing: 0.16em;
+    color: rgba(255, 215, 175, 0.55);
+    animation: cs-splash-title-fade 1.6s ease 0.9s both;
   }
 
   // Subtle loading bar at the bottom
@@ -38,17 +78,21 @@
     bottom: 36px;
     left: 50%;
     transform: translateX(-50%);
-    width: 100px;
-    height: 2px;
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 2px;
+    width: 80px;
+    height: 1px;
+    background: rgba(255, 220, 180, 0.15);
     overflow: hidden;
+    z-index: 5;
   }
 
   &__bar-fill {
     height: 100%;
-    background: rgba(255, 255, 255, 0.45);
-    border-radius: 2px;
+    background: rgba(255, 200, 150, 0.55);
     transition: width 0.35s ease;
   }
+}
+
+@keyframes cs-splash-title-fade {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

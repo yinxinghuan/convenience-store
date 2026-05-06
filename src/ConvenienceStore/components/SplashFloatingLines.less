@@ -1,0 +1,33 @@
+.cs-splash-lines {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  font-family: 'Noto Serif SC', serif;
+  z-index: 4;
+}
+
+.cs-splash-lines__line {
+  position: absolute;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: rgba(255, 220, 170, 0.85);
+  text-shadow: 0 0 14px rgba(255, 180, 100, 0.4);
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+  animation-name: cs-splash-line-cycle;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  // Slight horizontal drift while visible
+  &::after {
+    content: '';
+  }
+}
+
+@keyframes cs-splash-line-cycle {
+  0%   { opacity: 0; transform: translate(-50%, -42%); }
+  18%  { opacity: 0.95; transform: translate(-50%, -50%); }
+  72%  { opacity: 0.95; transform: translate(-50%, -56%); }
+  100% { opacity: 0; transform: translate(-50%, -64%); }
+}
