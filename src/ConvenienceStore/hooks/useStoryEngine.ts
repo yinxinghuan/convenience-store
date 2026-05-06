@@ -36,16 +36,33 @@ function resolveNext(targetId: string, flags: Set<string>): string {
   return id;
 }
 
-export function useStoryEngine() {
-  const [flags, setFlags] = useState<Set<string>>(() => pickCustomers());
-  const [beatId, setBeatId] = useState(() => resolveNext(FIRST_BEAT, flags));
-  const [pageIndex, setPageIndex] = useState(0);
+export interface StorySnapshot {
+  flags: string[];
+  beatId: string;
+  pageIndex: number;
+  currentScene: 'store' | 'backroom' | 'dawn';
+}
+
+export function useStoryEngine(initialSave?: StorySnapshot | null) {
+  const [flags, setFlags] = useState<Set<string>>(() =>
+    initialSave ? new Set(initialSave.flags) : pickCustomers()
+  );
+  const [beatId, setBeatId] = useState(() =>
+    initialSave ? initialSave.beatId : resolveNext(FIRST_BEAT, flags)
+  );
+  const [pageIndex, setPageIndex] = useState(initialSave?.pageIndex ?? 0);
   const [displayedChars, setDisplayedChars] = useState(0);
   const [isTyping, setIsTyping] = useState(false);
   const [choicesReady, setChoicesReady] = useState(false);
   const [isEnded, setIsEnded] = useState(false);
   const [isFailed, setIsFailed] = useState(false);
-  const [currentScene, setCurrentScene] = useState<'store' | 'backroom' | 'dawn'>('store');
+  const [currentScene, setCurrentScene] = useState<'store' | 'backroom' | 'dawn'>(
+    initialSave?.currentScene ?? 'store'
+  );
+
+  // Skip the page-reset side effect on the very first effect run so a restored
+  // pageIndex from a save isn't immediately reset to 0.
+  const prevBeatIdRef = useRef<string>(beatId);
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const flagsRef = useRef(flags);
@@ -115,9 +132,12 @@ export function useStoryEngine() {
     if (beat?.failed) {
       setIsFailed(true);
     }
-    setPageIndex(0);
-    setChoicesReady(false);
-  }, [beat]);
+    if (prevBeatIdRef.current !== beatId) {
+      setPageIndex(0);
+      setChoicesReady(false);
+      prevBeatIdRef.current = beatId;
+    }
+  }, [beat, beatId]);
 
   const goTo = useCallback((nextId: string, currentFlags: Set<string>) => {
     const resolved = resolveNext(nextId, currentFlags);

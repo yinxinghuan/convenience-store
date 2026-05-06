@@ -1,0 +1,80 @@
+.cs-resume {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 5, 20, 0.88);
+  backdrop-filter: blur(8px);
+  animation: cs-resume-fade 0.6s ease;
+
+  &__card {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 32px 28px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    max-width: 320px;
+    width: min(320px, 88vw);
+  }
+
+  &__icon {
+    font-size: 28px;
+    opacity: 0.55;
+    margin-bottom: 4px;
+  }
+
+  &__title {
+    font-size: 18px;
+    color: rgba(255, 255, 255, 0.85);
+    letter-spacing: 1px;
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  &__desc {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.45);
+    line-height: 1.6;
+    margin: 0 0 8px;
+    word-break: break-word;
+  }
+
+  &__btn {
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-family: inherit;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+  }
+
+  &__btn--primary {
+    background: rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    color: rgba(255, 255, 255, 0.92);
+    &:active { background: rgba(255, 255, 255, 0.22); }
+  }
+
+  &__btn--ghost {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.45);
+    &:active {
+      border-color: rgba(255, 255, 255, 0.25);
+      color: rgba(255, 255, 255, 0.7);
+    }
+  }
+}
+
+@keyframes cs-resume-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
