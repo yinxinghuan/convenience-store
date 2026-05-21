@@ -32,13 +32,12 @@ interface GameProps {
   clear: () => void;
   isInAigram: boolean;
   submitScore: (score: number) => void;
-  fetchGlobalLeaderboard: ReturnType<typeof useGameScore>['fetchGlobalLeaderboard'];
-  fetchFriendsLeaderboard: ReturnType<typeof useGameScore>['fetchFriendsLeaderboard'];
+  fetchLeaderboard: ReturnType<typeof useGameScore>['fetchLeaderboard'];
 }
 
 function ConvenienceStoreGame({
   initialSave, persist, clear, isInAigram, submitScore,
-  fetchGlobalLeaderboard, fetchFriendsLeaderboard,
+  fetchLeaderboard,
 }: GameProps) {
   const [showLeaderboard, setShowLeaderboard] = useState(false);
   const { t, getText } = useLocale();
@@ -80,8 +79,7 @@ function ConvenienceStoreGame({
           gameName="Convenience Store"
           isInAigram={isInAigram}
           onClose={() => setShowLeaderboard(false)}
-          fetchGlobal={fetchGlobalLeaderboard}
-          fetchFriends={fetchFriendsLeaderboard}
+          fetch={fetchLeaderboard}
         />
       )}
 
@@ -173,7 +171,7 @@ const ConvenienceStore = React.memo(
     const [showSplash, setShowSplash] = useState(true);
     const [decision, setDecision] = useState<'pending' | 'continue' | 'fresh'>('pending');
     const { getText } = useLocale();
-    const score = useGameScore(GAME_ID);
+    const score = useGameScore();
     const { savedData, loaded: saveLoaded, hasSave, persist, clear } = useGameSave<StorySnapshot>(GAME_ID);
 
     // Auto-decide "fresh" when there's nothing to resume.
@@ -204,8 +202,7 @@ const ConvenienceStore = React.memo(
             clear={clear}
             isInAigram={score.isInAigram}
             submitScore={score.submitScore}
-            fetchGlobalLeaderboard={score.fetchGlobalLeaderboard}
-            fetchFriendsLeaderboard={score.fetchFriendsLeaderboard}
+            fetchLeaderboard={score.fetchLeaderboard}
           />
         )}
       </div>
